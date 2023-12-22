@@ -36,3 +36,17 @@ function updateNumbersList() {
         listNumbers.appendChild(li);
     });
 }
+
+
+// HIDE & SHOW PAGE CONTENT BASED ON MENU ITEMS
+function showContent(sectionId) {
+    // Hide all content divs
+    var contentDivs = document.querySelectorAll('.content');
+    contentDivs.forEach(function (div) {
+        div.classList.add('hidden');
+    });
+
+    // Show the selected content div
+    var selectedDiv = document.getElementById(sectionId);
+    selectedDiv.classList.remove('hidden');
+}
