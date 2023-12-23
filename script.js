@@ -5,9 +5,9 @@ function addNumber() {
     var inputNumber = document.getElementById('number');
     const btn = document.getElementsByClassName('btn-download-json')[0];
 
-    
+
     var typedNumber = parseInt(inputNumber.value);
-    
+
     if (inputNumber.length == 0) {
         btn.classList.add('hidden');
     } else {
@@ -65,19 +65,30 @@ numbers.forEach(function (number) {
 
 
 // CEP CONSULT
-const cepAPI = "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl";
-
 $(document).ready(function () {
     $('#fetch-cep').on('click', function () {
+        const cep = document.getElementById('cep');
+        const trimmedCep = cep.value.replace('-', '').trim();
+
         $.ajax({
-            url: 'https://jsonplaceholder.typicode.com/posts/1',
+            url: "https://brasilapi.com.br/api/cep/v1/" + trimmedCep,
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                console.log('Data received:', data);
+                const title = document.getElementById('cep-fetched');
+                const content = document.getElementsByClassName('cep-content')[0];
+
+                for (var key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        const p = document.createElement('p');
+                        p.textContent = key + ': ' + data[key];
+                        content.appendChild(p);
+                    }
+                }
+
             },
             error: function (error) {
-                console.error('Error:', error);
+                alert("Something went wrong: ", error);
             }
         });
     });
