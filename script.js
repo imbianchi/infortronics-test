@@ -96,6 +96,36 @@ $(document).ready(function () {
 
 
 
+// PERFECT NUMBER CHECK
+function checkPerfectNumber() {
+    let number = parseInt(document.getElementById('perfect-number-input').value);
+
+    if (number == '' || isNaN(number)) {
+        document.getElementById('perfect-number-result').textContent = 'Please enter at least one number.';
+        return;
+    }
+
+    if (number <= 0) {
+        document.getElementById('perfect-number-result').textContent = 'Please enter a positive number.';
+        return;
+    }
+
+    let sum = 0;
+    for (let i = 1; i < number; i++) {
+        if (number % i === 0) {
+            sum += i;
+        }
+    }
+
+    if (sum === number) {
+        document.getElementById('perfect-number-result').textContent = number + ' is a perfect number.';
+    } else {
+        document.getElementById('perfect-number-result').textContent = number + ' is not a perfect number.';
+    }
+}
+
+
+
 // HIDE & SHOW PAGE CONTENT BASED ON MENU ITEMS
 function showContent(sectionId) {
     const contentDivs = document.querySelectorAll('.content');
@@ -105,4 +135,25 @@ function showContent(sectionId) {
 
     const selectedDiv = document.getElementById(sectionId);
     selectedDiv.classList.remove('hidden');
+}
+
+
+// MIULTIPLICATION TABLE
+function generateMultiplicationTable() {
+    var number = parseInt(document.getElementById('table-number-input').value);
+
+    if (isNaN(number)) {
+        alert('Please enter a valid number.');
+        return;
+    }
+
+    var tableOutput = '<h3>Multiplication Table for ' + number + '</h3>';
+    tableOutput += '<ul>';
+    for (var i = 1; i <= 10; i++) {
+        var result = number * i;
+        tableOutput += '<li>' + number + ' x ' + i + ' = ' + result + '</li>';
+    }
+    tableOutput += '</ul>';
+
+    document.getElementById('tableOutput').innerHTML = tableOutput;
 }
