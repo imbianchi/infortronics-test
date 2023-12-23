@@ -52,6 +52,7 @@
                 <div class="col-6">
                     <h3>Sorted given numbers (asc):</h3>
                     <ul id="sorted-numbers"></ul>
+                    <button class="btn-download-json hidden" onclick="downloadJSON()">Download JSON</button>
                 </div>
             </div>
         </div>
@@ -59,10 +60,12 @@
         <div id="consult-cep" class="container hidden content">
             <div class="row">
                 <div class="col-6">
-
+                    <label for="cep">Insert CEP number:</label>
+                    <input type="text" id="cep" />
+                    <button id="fetch-cep">Get CEP Info</button>
                 </div>
                 <div class="col-6">
-
+                    <h4 id="cep-fetched"></h4>
                 </div>
             </div>
         </div>

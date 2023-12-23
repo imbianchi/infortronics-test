@@ -3,22 +3,24 @@ var numbers = [];
 
 function addNumber() {
     var inputNumber = document.getElementById('number');
+    const btn = document.getElementsByClassName('btn-download-json')[0];
+
+    
     var typedNumber = parseInt(inputNumber.value);
+    
+    if (inputNumber.length == 0) {
+        btn.classList.add('hidden');
+    } else {
+        btn.classList.remove('hidden');
+    }
 
-    // Verifica se é um número válido
     if (!isNaN(typedNumber)) {
-        // Adiciona o número ao array
         numbers.push(typedNumber);
-
-        // Ordena o array em ordem crescente
         numbers.sort(function (a, b) {
             return a - b;
         });
 
-        // Atualiza a lista de números na tela
         updateNumbersList();
-
-        // Limpa o campo de entrada
         inputNumber.value = '';
     } else {
         alert('Please, type a valid number.');
@@ -29,13 +31,58 @@ function updateNumbersList() {
     var listNumbers = document.getElementById('sorted-numbers');
     listNumbers.innerHTML = '';
 
-    // Adiciona os números ordenados à lista
     numbers.forEach(function (number) {
         var li = document.createElement('li');
         li.textContent = number;
         listNumbers.appendChild(li);
     });
 }
+
+function downloadJSON() {
+    if (numbers.length == 0) {
+        return;
+    }
+
+    var jsonContent = JSON.stringify(numbers, null, 2);
+
+    var blob = new Blob([jsonContent], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+
+    link.href = url;
+    link.download = 'ordered_numbers.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+const orderedNumbersList = document.getElementById('orderedNumbersList');
+numbers.forEach(function (number) {
+    var listItem = document.createElement('li');
+    listItem.textContent = number;
+    orderedNumbersList.appendChild(listItem);
+});
+
+
+// CEP CONSULT
+const cepAPI = "https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl";
+
+$(document).ready(function () {
+    $('#fetch-cep').on('click', function () {
+        $.ajax({
+            url: 'https://jsonplaceholder.typicode.com/posts/1',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log('Data received:', data);
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
 
 
 // HIDE & SHOW PAGE CONTENT BASED ON MENU ITEMS
