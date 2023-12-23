@@ -1,67 +1,58 @@
 // SORT NUMBERS
-var numbers = [];
+const sortNumbers = {
+    numbers: [],
+    inputNumber: document.getElementById('number'),
+    btnsJSON: document.querySelectorAll('.btn-download-json'),
+    listNumbers: document.getElementById('sorted-numbers'),
 
-function addNumber() {
-    var inputNumber = document.getElementById('number');
-    const btn = document.getElementsByClassName('btn-download-json')[0];
+    addNumber: function () {
+        if (this.inputNumber.value === '') {
+            return alert('Please, type a valid number.');
+        }
 
+        this.btnsJSON.forEach(btn => btn.classList.toggle('hidden', this.inputNumber.value === ''));
 
-    var typedNumber = parseInt(inputNumber.value);
+        if (!isNaN(parseInt(this.inputNumber.value))) {
+            this.numbers.push(this.inputNumber.value);
+            this.numbers.sort((a, b) => a - b);
+            this.updateNumbersList();
+            this.inputNumber.value = '';
+        }
+    },
 
-    if (inputNumber.length == 0) {
-        btn.classList.add('hidden');
-    } else {
-        btn.classList.remove('hidden');
-    }
+    updateNumbersList: function () {
+        this.listNumbers.innerHTML = '';
 
-    if (!isNaN(typedNumber)) {
-        numbers.push(typedNumber);
-        numbers.sort(function (a, b) {
-            return a - b;
+        this.numbers.forEach(number => {
+            const li = document.createElement('li');
+            li.classList.add('list-group-item');
+            li.classList.add('list-group-item-action');
+            li.textContent = number;
+            this.listNumbers.appendChild(li);
         });
+    },
 
-        updateNumbersList();
-        inputNumber.value = '';
-    } else {
-        alert('Please, type a valid number.');
+    downloadNumbersJSON: function () {
+        const jsonContent = JSON.stringify(this.numbers, null, 2);
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'ordered_numbers.json';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    },
+
+    clearAllOrderedNumbers: function () {
+        this.numbers = [];
+        this.inputNumber.value = '';
+        this.btnsJSON.forEach(function (btn) { btn.classList.add('hidden') });
+        this.listNumbers.innerHTML = '';
     }
 }
 
-function updateNumbersList() {
-    var listNumbers = document.getElementById('sorted-numbers');
-    listNumbers.innerHTML = '';
-
-    numbers.forEach(function (number) {
-        var li = document.createElement('li');
-        li.textContent = number;
-        listNumbers.appendChild(li);
-    });
-}
-
-function downloadJSON() {
-    if (numbers.length == 0) {
-        return;
-    }
-
-    var jsonContent = JSON.stringify(numbers, null, 2);
-
-    var blob = new Blob([jsonContent], { type: 'application/json' });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-
-    link.href = url;
-    link.download = 'ordered_numbers.json';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-const orderedNumbersList = document.getElementById('orderedNumbersList');
-numbers.forEach(function (number) {
-    var listItem = document.createElement('li');
-    listItem.textContent = number;
-    orderedNumbersList.appendChild(listItem);
-});
 
 
 $(document).ready(function () {
@@ -113,12 +104,12 @@ $(document).ready(function () {
             success: function (data) {
                 const el = document.createElement('p');
 
-                if(data.rows.length == 0) {
-                    el.textContent = "Query ran with success.";    
+                if (data.rows.length == 0) {
+                    el.textContent = "Query ran with success.";
                 } else {
                     el.textContent = JSON.stringify(data.rows[0]);
                 }
-                
+
                 result.appendChild(el)
             },
             error: function (error) {
@@ -127,7 +118,6 @@ $(document).ready(function () {
         });
     });
 });
-
 
 
 // PERFECT NUMBER CHECK
@@ -158,19 +148,24 @@ function checkPerfectNumber() {
     }
 }
 
-
-
 // HIDE & SHOW PAGE CONTENT BASED ON MENU ITEMS
 function showContent(sectionId) {
+    const menuItems = document.querySelectorAll('.nav-link');
+    menuItems.forEach(function (item) {
+        item.classList.remove('active');
+    })
+
     const contentDivs = document.querySelectorAll('.content');
     contentDivs.forEach(function (div) {
         div.classList.add('hidden');
     });
 
     const selectedDiv = document.getElementById(sectionId);
+    const selectedItem = document.getElementsByClassName('nav-link ' + sectionId)[0];
+
+    selectedItem.classList.add('active');
     selectedDiv.classList.remove('hidden');
 }
-
 
 // MIULTIPLICATION TABLE
 function generateMultiplicationTable() {

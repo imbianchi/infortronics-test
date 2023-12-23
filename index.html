@@ -11,47 +11,62 @@
 </head>
 
 <body>
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/"
+                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+                <span class="fs-4">Infortronics</span>
+            </a>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" onclick="showContent('sort-numbers')"
+                        class="nav-link sort-numbers active" aria-current="page">Sort Numbers</a></li>
+                <li class="nav-item"><a href="#" onclick="showContent('consult-cep')"
+                        class="nav-link consult-cep">Consultar
+                        CEP</a>
+                </li>
+                <li class="nav-item"><a href="#" onclick="showContent('perfect-number')"
+                        class="nav-link perfect-number">Check
+                        Perfect
+                        Number</a></li>
+                <li class="nav-item"><a href="#" onclick="showContent('multiplication-table')"
+                        class="nav-link multiplication-table">Mult.
+                        Table</a></li>
+                <li class="nav-item"><a href="#" onclick="showContent('sql-section')" class="nav-link sql-section">SQL
+                        Consult</a>
+                </li>
+            </ul>
+        </header>
+    </div>
 
     <main>
-        <div class="container">
-            <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-                <a href="/"
-                    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32">
-                        <use xlink:href="#bootstrap"></use>
-                    </svg>
-                    <span class="fs-4">Infortronics</span>
-                </a>
-
-                <ul class="nav nav-pills">
-                    <li class="nav-item"><a href="#" onclick="showContent('sort-numbers')" class="nav-link active"
-                            aria-current="page">Sort Numbers</a></li>
-                    <li class="nav-item"><a href="#" onclick="showContent('consult-cep')" class="nav-link">Consultar
-                            CEP</a>
-                    </li>
-                    <li class="nav-item"><a href="#" onclick="showContent('perfect-number')" class="nav-link">Check
-                            Perfect
-                            Number</a></li>
-                    <li class="nav-item"><a href="#" onclick="showContent('multiplication-table')"
-                            class="nav-link">Mult. Table</a></li>
-                    <li class="nav-item"><a href="#" onclick="showContent('sql-section')" class="nav-link">SQL
-                            Consult</a>
-                    </li>
-                </ul>
-            </header>
-        </div>
-
-        <div id="sort-numbers" class="container content hidden">
+        <div id="sort-numbers" class="container content">
             <div class="row p-5">
-                <div class="col-6">
-                    <label for="number">Type a number:</label>
-                    <input type="number" id="number" />
-                    <button onclick="addNumber()">Add number</button>
+                <div class="col-12">
+                    <div class="w-50 m-auto">
+                        <label for="number"><small>Type a number:</small></label>
+                        <input class="form-control mt-1" type="number" id="number" />
+
+                        <div class="text-center mt-3">
+                            <button class="btn btn-primary m-auto" onclick="sortNumbers.addNumber()">Add number</button>
+                        </div>
+                    </div>
+                    <hr class="m-auto mt-4 mb-4"/>
                 </div>
-                <div class="col-6">
-                    <h3>Sorted given numbers (asc):</h3>
-                    <ul id="sorted-numbers"></ul>
-                    <button class="btn-download-json hidden" onclick="downloadJSON()">Download JSON</button>
+                <div class="col-12">
+                    <div class="w-50 m-auto">
+                        <div class="text-center w-50 m-auto">
+                            <ul class="list-group mt-3 mb-3" id="sorted-numbers"></ul>
+                            <button class="btn btn-outline-secondary btn-download-json hidden"
+                                onclick="sortNumbers.downloadNumbersJSON()">Download
+                                JSON</button>
+                            <button class="btn btn-outline-secondary btn-download-json hidden"
+                                onclick="sortNumbers.clearAllOrderedNumbers()">Clear all</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,7 +76,7 @@
                 <div class="col-6">
                     <label for="cep">Insert CEP number:</label>
                     <input type="text" id="cep" />
-                    <button id="fetch-cep">Get CEP Info</button>
+                    <button class="btn btn-primary" id="fetch-cep">Get CEP Info</button>
                 </div>
                 <div class="col-6">
                     <h4 id="cep-fetched mb-2"></h4>
@@ -70,13 +85,13 @@
             </div>
         </div>
 
-        <div id="perfect-number" class="container hidden">
+        <div id="perfect-number" class="container content hidden">
             <div class="row">
                 <div class="col-6">
                     <h2>Perfect Number Checker</h2>
                     <label for="perfect-number-input">Enter a number:</label>
                     <input type="number" id="perfect-number-input" />
-                    <button onclick="checkPerfectNumber()">Check</button>
+                    <button class="btn btn-primary" onclick="checkPerfectNumber()">Check</button>
                 </div>
                 <div class="col-6">
                     <p id="perfect-number-result"></p>
@@ -91,7 +106,7 @@
 
                     <label for="table-number-input">Enter a number:</label>
                     <input type="number" id="table-number-input" />
-                    <button onclick="generateMultiplicationTable()">Generate Table</button>
+                    <button class="btn btn-primary" onclick="generateMultiplicationTable()">Generate Table</button>
                 </div>
                 <div class="col-6">
                     <div id="tableOutput"></div>
@@ -99,7 +114,7 @@
             </div>
         </div>
 
-        <div id="sql-section" class="container content">
+        <div id="sql-section" class="container content hidden">
             <div class="row">
                 <div class="col-6">
                     <h2>SQL Query Form</h2>
@@ -117,13 +132,34 @@
                             END AS AgeInYears;
                     </textarea>
                     <br>
-                    <button type="button" class="sql-query-btn">Execute Query</button>
+                    <button type="button" class="btn btn-primary sql-query-btn">Execute Query</button>
 
                 </div>
                 <div class="col-6">
                     <div id="result-query"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <p class="col-md-4 mb-0 text-body-secondary">© 2023 Company, Inc</p>
+
+                <a href="/"
+                    class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+
+                <ul class="nav col-md-4 justify-content-end">
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+                </ul>
+            </footer>
         </div>
     </main>
 
