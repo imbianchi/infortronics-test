@@ -64,8 +64,9 @@ numbers.forEach(function (number) {
 });
 
 
-// CEP CONSULT
 $(document).ready(function () {
+
+    // CEP CONSULT
     $('#fetch-cep').on('click', function () {
         const cep = document.getElementById('cep');
         const trimmedCep = cep.value.replace('-', '').trim();
@@ -75,7 +76,6 @@ $(document).ready(function () {
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                const title = document.getElementById('cep-fetched');
                 const content = document.getElementsByClassName('cep-content')[0];
 
                 for (var key in data) {
@@ -86,6 +86,40 @@ $(document).ready(function () {
                     }
                 }
 
+            },
+            error: function (error) {
+                alert("Something went wrong: ", error);
+            }
+        });
+    });
+
+
+    // QUERY EXECUTION
+    $('.sql-query-btn').on('click', function () {
+        const result = document.getElementById('result-query');
+        result.removeChild('p');
+        var sqlQuery = $('#sql-query').val();
+
+        $.ajax({
+            url: "https://api.extendsclass.com/sql-server/query",
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'text/plain',
+            data: sqlQuery,
+            headers: {
+                "Sql-Server-Id": "20231223123no6yiuelqi13lmn",
+                "Sql-Server-Passwd": "3no6yiuelqi13lmoaA#",
+            },
+            success: function (data) {
+                const el = document.createElement('p');
+
+                if(data.rows.length == 0) {
+                    el.textContent = "Query ran with success.";    
+                } else {
+                    el.textContent = JSON.stringify(data.rows[0]);
+                }
+                
+                result.appendChild(el)
             },
             error: function (error) {
                 alert("Something went wrong: ", error);

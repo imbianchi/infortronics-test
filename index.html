@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div id="multiplication-table" class="container content">
+        <div id="multiplication-table" class="container content hidden">
             <div class="row">
                 <div class="col-6">
                     <h2>Multiplication Table</h2>
@@ -99,13 +99,29 @@
             </div>
         </div>
 
-        <div id="sql-section" class="container hidden content">
+        <div id="sql-section" class="container content">
             <div class="row">
                 <div class="col-6">
+                    <h2>SQL Query Form</h2>
+
+                    <label for="sql-query">Enter SQL Query:</label>
+                    <textarea id="sql-query" rows="10" cols="50">
+                        DECLARE @nasc AS varchar(11) = '17/04/2008';
+                        DECLARE @birthdate AS datetime = CONVERT(datetime, @nasc, 103);
+                        SELECT 
+                            DATEDIFF(YEAR, @birthdate, GETDATE()) - 
+                            CASE 
+                                WHEN DATEADD(YEAR, DATEDIFF(YEAR, @birthdate, GETDATE()), @birthdate) > GETDATE() 
+                                THEN 1 
+                                ELSE 0 
+                            END AS AgeInYears;
+                    </textarea>
+                    <br>
+                    <button type="button" class="sql-query-btn">Execute Query</button>
 
                 </div>
                 <div class="col-6">
-
+                    <div id="result-query"></div>
                 </div>
             </div>
         </div>
