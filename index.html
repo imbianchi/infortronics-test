@@ -53,7 +53,7 @@
     </div>
 
     <main>
-        <div id="sort-numbers" class="container content hidden">
+        <div id="sort-numbers" class="container content">
             <div class="row p-5">
                 <div class="col-12">
                     <div class="w-50 m-auto">
@@ -95,10 +95,10 @@
                         <input class="form-control mt-1" type="text" id="cep" />
 
                         <div class="text-center mt-3">
-                            <button class="btn btn-primary" id="fetch-cep">
+                            <button class="btn btn-primary fetch-btn" id="fetch-cep">
                                 <span class="spinner-border spinner-border-sm hidden" aria-hidden="true"></span>
-                                <span class="getting-cep visually-hidden" role="status">Getting address...</span>
-                                <span class="get-cep">Get address</span>
+                                <span class="visually-hidden" role="status">Getting address...</span>
+                                <span>Get address</span>
                             </button>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <div id="sql-section" class="container content">
+        <div id="sql-section" class="container content hidden">
             <div class="row p-3">
                 <div class="col-12">
                     <div class="w-100 m-auto">
@@ -174,7 +174,11 @@
                         </textarea>
 
                         <div class="text-center mt-3">
-                            <button type="button" class="btn btn-primary sql-query-btn">Execute Query</button>
+                            <button class="btn btn-primary sql-query-btn fetch-btn">
+                                <span class="spinner-border spinner-border-sm hidden" aria-hidden="true"></span>
+                                <span class="visually-hidden" role="status">Running query...</span>
+                                <span>Execute</span>
+                            </button>
                         </div>
                     </div>
                     <hr class="m-auto mt-4 mb-4" />
@@ -199,22 +203,26 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" onclick="showContent('consult-cep')" class="nav-link px-2 text-body-seondary consult-cep">
+                        <a href="#" onclick="showContent('consult-cep')"
+                            class="nav-link px-2 text-body-seondary consult-cep">
                             Consultar CEP
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" onclick="showContent('perfect-number')" class="nav-link px-2 text-body-seondary perfect-number">
+                        <a href="#" onclick="showContent('perfect-number')"
+                            class="nav-link px-2 text-body-seondary perfect-number">
                             Check Perfect Number
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" onclick="showContent('multiplication-table')" class="nav-link px-2 text-body-seondary multiplication-table">
+                        <a href="#" onclick="showContent('multiplication-table')"
+                            class="nav-link px-2 text-body-seondary multiplication-table">
                             Mult. Table
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" onclick="showContent('sql-section')" class="nav-link px-2 text-body-seondary sql-section">
+                        <a href="#" onclick="showContent('sql-section')"
+                            class="nav-link px-2 text-body-seondary sql-section">
                             SQL Consult
                         </a>
                     </li>

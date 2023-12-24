@@ -53,17 +53,22 @@ const sortNumbers = {
     }
 }
 
-const cepBtnChildren = document.getElementById('fetch-cep').childNodes;
+const fetchBtn = document.getElementsByClassName('fetch-btn');
 function startLoading() {
-    cepBtnChildren[1].classList.remove('hidden');
-    cepBtnChildren[3].classList.remove('visually-hidden');
-    cepBtnChildren[5].classList.add('hidden');
+    [].forEach.call(fetchBtn, function (btn) {
+        console.log(btn.childNodes, '--------')
+        btn.childNodes[1].classList.remove('hidden');
+        btn.childNodes[3].classList.remove('visually-hidden');
+        btn.childNodes[5].classList.add('hidden');
+    });
 }
 
 function stopLoading() {
-    cepBtnChildren[1].classList.add('hidden');
-    cepBtnChildren[3].classList.add('visually-hidden');
-    cepBtnChildren[5].classList.remove('hidden');
+    [].forEach.call(fetchBtn, function (btn) {
+        btn.childNodes[1].classList.add('hidden');
+        btn.childNodes[3].classList.add('visually-hidden');
+        btn.childNodes[5].classList.remove('hidden');
+    });
 }
 
 
@@ -127,6 +132,8 @@ $(document).ready(function () {
 
     // QUERY EXECUTION
     $('.sql-query-btn').on('click', function () {
+        startLoading();
+
         const result = document.getElementById('result-query');
         const e = document.createElement('p');
         result.innerHTML = '';
@@ -137,7 +144,7 @@ $(document).ready(function () {
             e.classList.add('text-bg-danger', 'p-3');
             e.innerText = 'You must provide a valid SQL query.'
             result.appendChild(e);
-            return;
+            return stopLoading();
         }
 
         $.ajax({
@@ -160,13 +167,16 @@ $(document).ready(function () {
                 }
 
                 result.appendChild(e)
+                stopLoading();
             },
             error: function (error) {
                 e.classList.add('text-bg-danger', 'p-3', 'text-center');
                 e.innerText = 'Something went wrong: ' + error.responseText;
                 result.appendChild(e);
+                stopLoading();
             }
         });
+
     });
 
 
