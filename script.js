@@ -253,22 +253,3 @@ function showContent(sectionId) {
     selectedItem.classList.add('active');
     selectedDiv.classList.remove('hidden');
 }
-
-// MIULTIPLICATION TABLE
-function generateMultiplicationTable() {
-    var number = parseInt(document.getElementById('table-number-input').value);
-
-    if (isNaN(number)) {
-        alert('Please enter a valid number.');
-        return;
-    }
-
-    tableOutput += '<ul>';
-    for (var i = 1; i <= 10; i++) {
-        var result = number * i;
-        tableOutput += '<li>' + number + ' x ' + i + ' = ' + result + '</li>';
-    }
-    tableOutput += '</ul>';
-
-    document.getElementById('tableOutput').innerHTML = tableOutput;
-}
