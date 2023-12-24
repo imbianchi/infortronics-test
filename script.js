@@ -73,10 +73,10 @@ $(document).ready(function () {
     $('#fetch-cep').on('click', function () {
         const table = document.getElementsByClassName('table-cep')[0];
         table.innerHTML = '';
-        
+
         const cep = document.getElementById('cep');
         if (cep.value == '') return alert('Please, provide a CEP number.');
-        
+
         startLoading();
 
         const trimmedCep = cep.value.replace('-', '').trim();
@@ -100,7 +100,7 @@ $(document).ready(function () {
                 for (var key in data) {
                     const th = document.createElement('th');
                     const td = document.createElement('td');
-                    
+
                     trHead.appendChild(th);
 
                     if (data.hasOwnProperty(key)) {
@@ -157,36 +157,50 @@ $(document).ready(function () {
             }
         });
     });
-});
 
 
-// PERFECT NUMBER CHECK
-function checkPerfectNumber() {
-    let number = parseInt(document.getElementById('perfect-number-input').value);
+    //PERFECT NUMBER CHECK
+    const $watchedInput = $('#perfect-number-input');
+    $watchedInput.on('input', function () {
+        const divResult = document.getElementById('perfect-number-result');
+        const resultEl = document.createElement('span');
+        divResult.innerHTML = '';
 
-    if (number == '' || isNaN(number)) {
-        document.getElementById('perfect-number-result').textContent = 'Please enter at least one number.';
-        return;
-    }
+        let number = $(this).val();
 
-    if (number <= 0) {
-        document.getElementById('perfect-number-result').textContent = 'Please enter a positive number.';
-        return;
-    }
-
-    let sum = 0;
-    for (let i = 1; i < number; i++) {
-        if (number % i === 0) {
-            sum += i;
+        if(number == '') {
+            return;
         }
-    }
 
-    if (sum === number) {
-        document.getElementById('perfect-number-result').textContent = number + ' is a perfect number.';
-    } else {
-        document.getElementById('perfect-number-result').textContent = number + ' is not a perfect number.';
-    }
-}
+        if (number <= 0) {
+            return alert('Please enter a positive number.');
+        }
+
+        if(isNaN(number)) {
+            return alert('Please enter a valid number.');
+        }
+        
+
+        let sum = 0;
+        for (let i = 1; i < number; i++) {
+            if (number % i === 0) {
+                sum += i;
+            }
+        }
+
+        if (sum == number) {
+            resultEl.classList.add('badge', 'rounded-pill', 'text-bg-success');
+            resultEl.innerText = number + ' is a perfect number :)';
+        } else {
+            resultEl.classList.add('badge', 'rounded-pill', 'text-bg-danger');
+            resultEl.innerText = number + ' is not perfect number :(';
+        }
+
+        divResult.appendChild(resultEl);
+
+    });
+
+});
 
 // HIDE & SHOW PAGE CONTENT BASED ON MENU ITEMS
 function showContent(sectionId) {

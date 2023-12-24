@@ -85,7 +85,7 @@
             </div>
         </div>
 
-        <div id="consult-cep" class="container content">
+        <div id="consult-cep" class="container content hidden">
             <div class="row p-5">
                 <div class="col-12">
                     <div class="w-50 m-auto">
@@ -115,16 +115,30 @@
             </div>
         </div>
 
-        <div id="perfect-number" class="container content hidden">
-            <div class="row">
-                <div class="col-6">
-                    <h2>Perfect Number Checker</h2>
-                    <label for="perfect-number-input">Enter a number:</label>
-                    <input type="number" id="perfect-number-input" />
-                    <button class="btn btn-primary" onclick="checkPerfectNumber()">Check</button>
+        <div id="perfect-number" class="container content">
+            <div class="row p-5">
+                <div class="col-12">
+                    <div class="w-50 m-auto">
+                        <label for="perfect-number-input">
+                            <small>Enter a number:</small>
+                        </label>
+                        <input type="number" id="perfect-number-input"
+                            class="form-control mt-1" />
+
+                        <!-- <div class="text-center mt-3">
+                            <button class="btn btn-primary" onchange="checkPerfectNumber()">
+                                Check
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="clearInput()">Clear</button>
+                        </div> -->
+                    </div>
+                    <hr class="m-auto mt-4 mb-4" />
                 </div>
-                <div class="col-6">
-                    <p id="perfect-number-result"></p>
+                <div class="col-12">
+                    <div class="w-50 m-auto">
+                        <div class="text-center m-auto" id="perfect-number-result">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
