@@ -115,22 +115,14 @@
             </div>
         </div>
 
-        <div id="perfect-number" class="container content">
+        <div id="perfect-number" class="container content hidden">
             <div class="row p-5">
                 <div class="col-12">
                     <div class="w-50 m-auto">
                         <label for="perfect-number-input">
                             <small>Enter a number:</small>
                         </label>
-                        <input type="number" id="perfect-number-input"
-                            class="form-control mt-1" />
-
-                        <!-- <div class="text-center mt-3">
-                            <button class="btn btn-primary" onchange="checkPerfectNumber()">
-                                Check
-                            </button>
-                            <button class="btn btn-outline-secondary" onclick="clearInput()">Clear</button>
-                        </div> -->
+                        <input type="number" id="perfect-number-input" class="form-control mt-1" />
                     </div>
                     <hr class="m-auto mt-4 mb-4" />
                 </div>
@@ -143,19 +135,24 @@
             </div>
         </div>
 
-        <div id="multiplication-table" class="container content hidden">
-            <div class="row">
-                <div class="col-6">
-                    <h2>Multiplication Table</h2>
-
-                    <label for="table-number-input">Enter a number:</label>
-                    <input type="number" id="table-number-input" />
-                    <button class="btn btn-primary" onclick="generateMultiplicationTable()">Generate Table</button>
+        <div id="multiplication-table" class="container content">
+            <div class="row p-5">
+                <div class="col-12">
+                    <div class="w-50 m-auto">
+                        <label for="mult-input">
+                            <small>Enter a number:</small>
+                        </label>
+                        <input type="number" id="mult-input" class="form-control mt-1" />
+                    </div>
+                    <hr class="m-auto mt-4 mb-4" />
                 </div>
-                <div class="col-6">
-                    <div id="tableOutput"></div>
+                <div class="col-12">
+                    <div class="w-50 m-auto">
+                        <ul class="list-group mt-3 mb-3" id="mult-result"></ul>
+                    </div>
                 </div>
             </div>
+        </div>
         </div>
 
         <div id="sql-section" class="container content hidden">

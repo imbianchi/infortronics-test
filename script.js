@@ -168,7 +168,7 @@ $(document).ready(function () {
 
         let number = $(this).val();
 
-        if(number == '') {
+        if (number == '') {
             return;
         }
 
@@ -176,10 +176,10 @@ $(document).ready(function () {
             return alert('Please enter a positive number.');
         }
 
-        if(isNaN(number)) {
+        if (isNaN(number)) {
             return alert('Please enter a valid number.');
         }
-        
+
 
         let sum = 0;
         for (let i = 1; i < number; i++) {
@@ -199,6 +199,39 @@ $(document).ready(function () {
         divResult.appendChild(resultEl);
 
     });
+
+
+    // MULTIPLICATION TABLE
+    const $multTable = $('#mult-input');
+    $multTable.on('input', function () {
+        let number = $(this).val();
+
+        const table = document.getElementById('mult-result');
+        table.innerHTML = '';
+        
+        if (number == '') {
+            return;
+        }
+
+        if (number <= 0) {
+            return alert('Please enter a positive number.');
+        }
+
+        if (isNaN(number)) {
+            return alert('Please enter a valid number.');
+        }
+
+        for (let i = 1; i <= 10; i++) {
+            let result = number * i;
+
+            const li = document.createElement('li');
+            li.classList.add('list-group-item');
+            li.classList.add('list-group-item-action');
+            li.textContent = number + ' x ' + i + ' = ' + result;
+            table.appendChild(li);
+        }
+    })
+
 
 });
 
@@ -230,7 +263,6 @@ function generateMultiplicationTable() {
         return;
     }
 
-    var tableOutput = '<h3>Multiplication Table for ' + number + '</h3>';
     tableOutput += '<ul>';
     for (var i = 1; i <= 10; i++) {
         var result = number * i;
