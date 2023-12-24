@@ -53,13 +53,32 @@ const sortNumbers = {
     }
 }
 
+const cepBtnChildren = document.getElementById('fetch-cep').childNodes;
+function startLoading() {
+    cepBtnChildren[1].classList.remove('hidden');
+    cepBtnChildren[3].classList.remove('visually-hidden');
+    cepBtnChildren[5].classList.add('hidden');
+}
+
+function stopLoading() {
+    cepBtnChildren[1].classList.add('hidden');
+    cepBtnChildren[3].classList.add('visually-hidden');
+    cepBtnChildren[5].classList.remove('hidden');
+}
 
 
 $(document).ready(function () {
 
     // CEP CONSULT
     $('#fetch-cep').on('click', function () {
+        const table = document.getElementsByClassName('table-cep')[0];
+        table.innerHTML = '';
+        
         const cep = document.getElementById('cep');
+        if (cep.value == '') return alert('Please, provide a CEP number.');
+        
+        startLoading();
+
         const trimmedCep = cep.value.replace('-', '').trim();
 
         $.ajax({
@@ -67,19 +86,40 @@ $(document).ready(function () {
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                const content = document.getElementsByClassName('cep-content')[0];
+
+                const tableHead = document.createElement('thead');
+                const trHead = document.createElement('tr');
+                tableHead.appendChild(trHead);
+                table.appendChild(tableHead);
+
+                const tableBody = document.createElement('tbody');
+                const trBody = document.createElement('tr');
+                tableBody.appendChild(trBody);
+                table.appendChild(tableBody);
 
                 for (var key in data) {
+                    const th = document.createElement('th');
+                    const td = document.createElement('td');
+                    
+                    trHead.appendChild(th);
+
                     if (data.hasOwnProperty(key)) {
-                        const p = document.createElement('p');
-                        p.textContent = key + ': ' + data[key];
-                        content.appendChild(p);
+                        th.innerText = key.toUpperCase();
+                        trHead.appendChild(th);
+
+                        td.innerText = data[key];
+                        trBody.appendChild(td);
                     }
                 }
 
+                stopLoading();
+
             },
             error: function (error) {
-                alert("Something went wrong: ", error);
+                stopLoading();
+                if (error.status == 404) {
+                    return alert(error.responseJSON.errors[0].message);
+                }
             }
         });
     });
