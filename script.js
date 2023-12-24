@@ -1,4 +1,70 @@
-// SORT NUMBERS
+// Common functions
+function showAlert(message, className) {
+    const alertElement = document.createElement('div');
+    alertElement.className = `alert ${className} w-50 m-auto mb-1`;
+    alertElement.textContent = message;
+    document.body.appendChild(alertElement);
+    setTimeout(() => alertElement.remove(), 3000);
+}
+
+function showLoadingIndicators() {
+    $('.fetch-btn').find('.spinner').removeClass('hidden')
+        .end().find('.visually-hidden').removeClass('visually-hidden')
+        .end().find('.content-placeholder').addClass('hidden');
+}
+
+function hideLoadingIndicators() {
+    $('.fetch-btn').find('.spinner').addClass('hidden')
+        .end().find('.visually-hidden').addClass('visually-hidden')
+        .end().find('.content-placeholder').removeClass('hidden');
+}
+
+const fetchBtn = document.getElementsByClassName('fetch-btn');
+function startLoading() {
+    [].forEach.call(fetchBtn, function (btn) {
+        btn.childNodes[1].classList.remove('hidden');
+        btn.childNodes[3].classList.remove('visually-hidden');
+        btn.childNodes[5].classList.add('hidden');
+    });
+}
+
+function stopLoading() {
+    [].forEach.call(fetchBtn, function (btn) {
+        btn.childNodes[1].classList.add('hidden');
+        btn.childNodes[3].classList.add('visually-hidden');
+        btn.childNodes[5].classList.remove('hidden');
+    });
+}
+
+function showContent(sectionId) {
+    const menuItems = document.querySelectorAll('.nav-link');
+    menuItems.forEach(function (item) {
+        item.classList.remove('active');
+    })
+
+    const contentDivs = document.querySelectorAll('.content');
+    contentDivs.forEach(function (div) {
+        div.classList.add('hidden');
+    });
+
+    const selectedDiv = document.getElementById(sectionId);
+    const selectedItem = document.getElementsByClassName('nav-link ' + sectionId)[0];
+
+    selectedItem.classList.add('active');
+    selectedDiv.classList.remove('hidden');
+}
+
+// Numbers validation
+function isValidNumber(number) {
+    if (number === '' || isNaN(number) || number <= 0) {
+        showAlert('Please enter a valid positive number.', 'alert-danger');
+        return false;
+    }
+
+    return true;
+}
+
+//  ORDERED NUMBERS
 const sortNumbers = {
     numbers: [],
     inputNumber: document.getElementById('number'),
@@ -7,7 +73,7 @@ const sortNumbers = {
 
     addNumber: function () {
         if (this.inputNumber.value === '') {
-            return alert('Please, type a valid number.');
+            return showAlert('Please, type a valid number.', 'text-bg-danger')
         }
 
         this.btnsJSON.forEach(btn => btn.classList.toggle('hidden', this.inputNumber.value === ''));
@@ -53,24 +119,7 @@ const sortNumbers = {
     }
 }
 
-const fetchBtn = document.getElementsByClassName('fetch-btn');
-function startLoading() {
-    [].forEach.call(fetchBtn, function (btn) {
-        btn.childNodes[1].classList.remove('hidden');
-        btn.childNodes[3].classList.remove('visually-hidden');
-        btn.childNodes[5].classList.add('hidden');
-    });
-}
-
-function stopLoading() {
-    [].forEach.call(fetchBtn, function (btn) {
-        btn.childNodes[1].classList.add('hidden');
-        btn.childNodes[3].classList.add('visually-hidden');
-        btn.childNodes[5].classList.remove('hidden');
-    });
-}
-
-
+// JQUERY BASED FUNCTIONS
 $(document).ready(function () {
 
     // CEP CONSULT
@@ -79,7 +128,9 @@ $(document).ready(function () {
         table.innerHTML = '';
 
         const cep = document.getElementById('cep');
-        if (cep.value == '') return alert('Please, provide a CEP number.');
+        if (cep.value == '') {
+            return showAlert('Please, provide a CEP number.', 'alert-warning');
+        }
 
         startLoading();
 
@@ -101,6 +152,9 @@ $(document).ready(function () {
                 tableBody.appendChild(trBody);
                 table.appendChild(tableBody);
 
+                const wrapper = document.getElementsByClassName('div-cep')[0];
+                wrapper.classList.add('p-3', 'border', 'rounded-2', 'border-grey');
+
                 for (var key in data) {
                     const th = document.createElement('th');
                     const td = document.createElement('td');
@@ -121,13 +175,11 @@ $(document).ready(function () {
             },
             error: function (error) {
                 stopLoading();
-                if (error.status == 404) {
-                    return alert(error.responseJSON.errors[0].message);
-                }
+
+                return showAlert(error.responseJSON.errors[0].message, 'alert-danger');
             }
         });
     });
-
 
     // QUERY EXECUTION
     $('.sql-query-btn').on('click', function () {
@@ -178,98 +230,54 @@ $(document).ready(function () {
 
     });
 
-
     //PERFECT NUMBER CHECK
     const $watchedInput = $('#perfect-number-input');
     $watchedInput.on('input', function () {
-        const divResult = document.getElementById('perfect-number-result');
-        const resultEl = document.createElement('span');
-        divResult.innerHTML = '';
-
         let number = $(this).val();
+        const divResult = document.getElementById('perfect-number-result');
 
-        if (number == '') {
-            return;
-        }
-
-        if (number <= 0) {
-            return alert('Please enter a positive number.');
-        }
-
-        if (isNaN(number)) {
-            return alert('Please enter a valid number.');
-        }
-
-
-        let sum = 0;
-        for (let i = 1; i < number; i++) {
-            if (number % i === 0) {
-                sum += i;
+        if (isValidNumber(number)) {
+            let sum = 0;
+            for (let i = 1; i < number; i++) {
+                if (number % i === 0) {
+                    sum += i;
+                }
             }
-        }
 
-        if (sum == number) {
-            resultEl.classList.add('badge', 'rounded-pill', 'text-bg-success');
-            resultEl.innerText = number + ' is a perfect number :)';
-        } else {
-            resultEl.classList.add('badge', 'rounded-pill', 'text-bg-danger');
-            resultEl.innerText = number + ' is not perfect number :(';
-        }
+            const resultEl = document.createElement('span');
+            divResult.innerHTML = '';
 
-        divResult.appendChild(resultEl);
+            if (sum == number) {
+                resultEl.classList.add('text-bg-success', 'p-3');
+                resultEl.innerText = number + ' is a perfect number :)';
+            } else {
+                resultEl.classList.add('text-bg-danger', 'p-3');
+                resultEl.innerText = number + ' is not perfect number :(';
+            }
+
+            divResult.appendChild(resultEl);
+        };
 
     });
-
 
     // MULTIPLICATION TABLE
     const $multTable = $('#mult-input');
     $multTable.on('input', function () {
         let number = $(this).val();
 
-        const table = document.getElementById('mult-result');
-        table.innerHTML = '';
+        if (isValidNumber(number)) {
+            const table = document.getElementById('mult-result');
+            table.innerHTML = '';
 
-        if (number == '') {
-            return;
-        }
+            for (let i = 1; i <= 10; i++) {
+                let result = number * i;
 
-        if (number <= 0) {
-            return alert('Please enter a positive number.');
-        }
-
-        if (isNaN(number)) {
-            return alert('Please enter a valid number.');
-        }
-
-        for (let i = 1; i <= 10; i++) {
-            let result = number * i;
-
-            const li = document.createElement('li');
-            li.classList.add('list-group-item');
-            li.classList.add('list-group-item-action');
-            li.textContent = number + ' x ' + i + ' = ' + result;
-            table.appendChild(li);
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.classList.add('list-group-item-action');
+                li.textContent = number + ' x ' + i + ' = ' + result;
+                table.appendChild(li);
+            }
         }
     })
-
-
 });
-
-// HIDE & SHOW PAGE CONTENT BASED ON MENU ITEMS
-function showContent(sectionId) {
-    const menuItems = document.querySelectorAll('.nav-link');
-    menuItems.forEach(function (item) {
-        item.classList.remove('active');
-    })
-
-    const contentDivs = document.querySelectorAll('.content');
-    contentDivs.forEach(function (div) {
-        div.classList.add('hidden');
-    });
-
-    const selectedDiv = document.getElementById(sectionId);
-    const selectedItem = document.getElementsByClassName('nav-link ' + sectionId)[0];
-
-    selectedItem.classList.add('active');
-    selectedDiv.classList.remove('hidden');
-}
