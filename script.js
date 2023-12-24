@@ -128,8 +128,17 @@ $(document).ready(function () {
     // QUERY EXECUTION
     $('.sql-query-btn').on('click', function () {
         const result = document.getElementById('result-query');
-        result.removeChild('p');
-        var sqlQuery = $('#sql-query').val();
+        const e = document.createElement('p');
+        result.innerHTML = '';
+
+        var sqlQuery = $('#sql-query').val().trim();
+
+        if (sqlQuery == '') {
+            e.classList.add('text-bg-danger', 'p-3');
+            e.innerText = 'You must provide a valid SQL query.'
+            result.appendChild(e);
+            return;
+        }
 
         $.ajax({
             url: "https://api.extendsclass.com/sql-server/query",
@@ -138,22 +147,24 @@ $(document).ready(function () {
             contentType: 'text/plain',
             data: sqlQuery,
             headers: {
-                "Sql-Server-Id": "20231223123no6yiuelqi13lmn",
-                "Sql-Server-Passwd": "3no6yiuelqi13lmoaA#",
+                "Sql-Server-Id": "20231224133no6yi39ulqjjy2cg",
+                "Sql-Server-Passwd": "3no6yi39ulqjjy2chaA#",
             },
             success: function (data) {
-                const el = document.createElement('p');
+                e.classList.add('text-bg-success', 'p-3', 'text-center');
 
                 if (data.rows.length == 0) {
-                    el.textContent = "Query ran with success.";
+                    e.innerText = "Query ran with success.";
                 } else {
-                    el.textContent = JSON.stringify(data.rows[0]);
+                    e.innerText = JSON.stringify(data.rows[0]);
                 }
 
-                result.appendChild(el)
+                result.appendChild(e)
             },
             error: function (error) {
-                alert("Something went wrong: ", error);
+                e.classList.add('text-bg-danger', 'p-3', 'text-center');
+                e.innerText = 'Something went wrong: ' + error.responseText;
+                result.appendChild(e);
             }
         });
     });
@@ -208,7 +219,7 @@ $(document).ready(function () {
 
         const table = document.getElementById('mult-result');
         table.innerHTML = '';
-        
+
         if (number == '') {
             return;
         }

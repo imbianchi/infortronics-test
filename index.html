@@ -135,10 +135,10 @@
             </div>
         </div>
 
-        <div id="multiplication-table" class="container content">
+        <div id="multiplication-table" class="container content hidden">
             <div class="row p-5">
                 <div class="col-12">
-                    <div class="w-50 m-auto">
+                    <div class="w-100 m-auto">
                         <label for="mult-input">
                             <small>Enter a number:</small>
                         </label>
@@ -153,52 +153,71 @@
                 </div>
             </div>
         </div>
-        </div>
 
-        <div id="sql-section" class="container content hidden">
-            <div class="row">
-                <div class="col-6">
-                    <h2>SQL Query Form</h2>
+        <div id="sql-section" class="container content">
+            <div class="row p-3">
+                <div class="col-12">
+                    <div class="w-100 m-auto">
+                        <label for="mult-input">
+                            <small>Enter SQL Query:</small>
+                        </label>
+                        <textarea class="form-control" id="sql-query" rows="12" cols="70">
+                            DECLARE @nasc AS varchar(11) = '17/04/2008';
+                            DECLARE @birthdate AS datetime = CONVERT(datetime, @nasc, 103);
+                            SELECT 
+                                DATEDIFF(YEAR, @birthdate, GETDATE()) - 
+                                CASE 
+                                    WHEN DATEADD(YEAR, DATEDIFF(YEAR, @birthdate, GETDATE()), @birthdate) > GETDATE() 
+                                    THEN 1 
+                                    ELSE 0 
+                                END AS AgeInYears;
+                        </textarea>
 
-                    <label for="sql-query">Enter SQL Query:</label>
-                    <textarea id="sql-query" rows="10" cols="50">
-                        DECLARE @nasc AS varchar(11) = '17/04/2008';
-                        DECLARE @birthdate AS datetime = CONVERT(datetime, @nasc, 103);
-                        SELECT 
-                            DATEDIFF(YEAR, @birthdate, GETDATE()) - 
-                            CASE 
-                                WHEN DATEADD(YEAR, DATEDIFF(YEAR, @birthdate, GETDATE()), @birthdate) > GETDATE() 
-                                THEN 1 
-                                ELSE 0 
-                            END AS AgeInYears;
-                    </textarea>
-                    <br>
-                    <button type="button" class="btn btn-primary sql-query-btn">Execute Query</button>
-
+                        <div class="text-center mt-3">
+                            <button type="button" class="btn btn-primary sql-query-btn">Execute Query</button>
+                        </div>
+                    </div>
+                    <hr class="m-auto mt-4 mb-4" />
                 </div>
-                <div class="col-6">
-                    <div id="result-query"></div>
+                <div class="col-12">
+                    <div class="m-auto">
+                        <div id="result-query"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="container fixed-bottom">
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                <p class="col-md-4 mb-0 text-body-secondary">© 2023 Company, Inc</p>
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-3 border-top">
+                <p class="col-md-6 mb-0 text-body-secondary">© 2023 Company, Inc</p>
 
-                <a href="/"
-                    class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32">
-                        <use xlink:href="#bootstrap"></use>
-                    </svg>
-                </a>
-
-                <ul class="nav col-md-4 justify-content-end">
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+                <ul class="nav col-md-6 justify-content-end">
+                    <li class="nav-item">
+                        <a href="#" onclick="showContent('sort-numbers')" class="nav-link px-2 text-body-seondary sort-numbers 
+                            active" aria-current="page">
+                            Sort Numbers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="showContent('consult-cep')" class="nav-link px-2 text-body-seondary consult-cep">
+                            Consultar CEP
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="showContent('perfect-number')" class="nav-link px-2 text-body-seondary perfect-number">
+                            Check Perfect Number
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="showContent('multiplication-table')" class="nav-link px-2 text-body-seondary multiplication-table">
+                            Mult. Table
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="showContent('sql-section')" class="nav-link px-2 text-body-seondary sql-section">
+                            SQL Consult
+                        </a>
+                    </li>
                 </ul>
             </footer>
         </div>
