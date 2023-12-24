@@ -56,7 +56,6 @@ const sortNumbers = {
 const fetchBtn = document.getElementsByClassName('fetch-btn');
 function startLoading() {
     [].forEach.call(fetchBtn, function (btn) {
-        console.log(btn.childNodes, '--------')
         btn.childNodes[1].classList.remove('hidden');
         btn.childNodes[3].classList.remove('visually-hidden');
         btn.childNodes[5].classList.add('hidden');
